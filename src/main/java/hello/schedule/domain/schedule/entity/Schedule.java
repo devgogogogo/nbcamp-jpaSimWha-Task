@@ -26,6 +26,8 @@ public class Schedule extends BaseEntity {
 
     private String name;
     private Integer age;
+    private String nick;
+
 
 
 
