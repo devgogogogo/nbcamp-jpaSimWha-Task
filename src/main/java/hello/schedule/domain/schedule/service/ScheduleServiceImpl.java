@@ -23,6 +23,16 @@ public class ScheduleServiceImpl implements ScheduleService {
         Schedule savedSchedule = scheduleRepository.save(schedule);
 
         //다시 DB에 꺼내어서 responseDto로 넘겨준다.
-        return new ScheduleResponseDto(savedSchedule.getWriterId(),savedSchedule.getTitle(),savedSchedule.getContent());
+        return new ScheduleResponseDto(savedSchedule.getId(),savedSchedule.getWriterId(),savedSchedule.getTitle(),savedSchedule.getContent());
+    }
+
+    @Override //스케줄 단편 조회
+    public ScheduleResponseDto findById(Long id) {
+
+        //식별자로 스케쥴을 조회한다. --> 없으면 예외처리
+        Schedule findById = scheduleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("조회할 스케쥴이 없습니다."));
+
+        //스케줄 객체를 responseDto에 넣어준다.
+        return new ScheduleResponseDto(findById.getId(),findById.getWriterId(),findById.getTitle(),findById.getContent());
     }
 }

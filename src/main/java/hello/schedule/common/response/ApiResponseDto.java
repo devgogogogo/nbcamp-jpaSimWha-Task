@@ -11,13 +11,11 @@ import java.time.LocalDateTime;
 public class ApiResponseDto<T> {
 
     private LocalDateTime timestamp;
-    private int code;
     private T data;
     private String message;
 
     public ApiResponseDto(SuccessCode successCode, T data) {
         this.timestamp = LocalDateTime.now();
-        this.code = successCode.getCode();
         this.data = data;
         this.message = successCode.getMessage();
     }
