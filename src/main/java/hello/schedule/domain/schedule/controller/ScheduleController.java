@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/schedules")
 @RequiredArgsConstructor
@@ -22,7 +24,7 @@ public class ScheduleController {
         //서비스로 넘겨주고
         ScheduleResponseDto responseDto = scheduleService.createSchedule(dto.getWriterId(), dto.getTitle(), dto.getContent());
 
-        //리턴은 스케줄응답으로 반환한다.
+        //리턴을 공통api를 이용해서 responseDto로 반환한다.
         return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.SCHEDULE_CREATE_SUCCESS, responseDto));
     }
 
@@ -32,7 +34,17 @@ public class ScheduleController {
         //서비스 단으로 넘겨준다.
         ScheduleResponseDto findById = scheduleService.findById(id);
 
-        //공통응답으로 리턴해준다.
+        //리턴을 공통api를 이용해서 responseDto로 반환한다.
         return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.SCHEDULE_GET_ONE_SUCCESS, findById));
+    }
+
+    @GetMapping() //스케줄 전체 조회
+    public ResponseEntity<ApiResponseDto<List<ScheduleResponseDto>>> findAll() {
+
+        //서비스 단으로 넘겨준다.
+        List<ScheduleResponseDto> findAll = scheduleService.findAll();
+
+        //리턴을 공통api를 이용해서 responseDto로 반환한다.
+        return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.SCHEDULE_GET_All_SUCCESS, findAll));
     }
 }

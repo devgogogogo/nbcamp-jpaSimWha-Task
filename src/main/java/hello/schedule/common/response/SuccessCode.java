@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 public enum SuccessCode {
 
     SCHEDULE_CREATE_SUCCESS(201, HttpStatus.CREATED, "스케쥴이 생성되었습니다."),
-    SCHEDULE_GET_ONE_SUCCESS(200, HttpStatus.OK, "스케쥴를 조회하였습니다.");
+    SCHEDULE_GET_ONE_SUCCESS(200, HttpStatus.OK, "스케쥴 단편 조회하였습니다."),
+    SCHEDULE_GET_All_SUCCESS(200, HttpStatus.OK, "스케쥴 전체를 조회하였습니다.");
+
 
 
     private final Integer code;

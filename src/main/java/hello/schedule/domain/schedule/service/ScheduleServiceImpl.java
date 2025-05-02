@@ -6,6 +6,9 @@ import hello.schedule.domain.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ScheduleServiceImpl implements ScheduleService {
@@ -34,5 +37,24 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         //스케줄 객체를 responseDto에 넣어준다.
         return new ScheduleResponseDto(findById.getId(),findById.getWriterId(),findById.getTitle(),findById.getContent());
+    }
+
+    @Override //스케줄 전체 조회
+    public List<ScheduleResponseDto> findAll() {
+
+        //DB에 findAll을 해서 List<Schedule> 을 가지고 나온다.
+        List<Schedule> findAll = scheduleRepository.findAll();
+
+        //담아갈 배열을 하나 만들어 준다.
+        List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>();
+
+        //for문으로 responseDto에 넣어준다.
+        for (Schedule schedule : findAll) {
+            ScheduleResponseDto findSchedule = new ScheduleResponseDto(schedule.getId(), schedule.getWriterId(), schedule.getTitle(), schedule.getContent());
+            scheduleResponseDtoList.add(findSchedule);
+        }
+
+        //for문으로 넣어준 responseDto를 반환한다.
+        return scheduleResponseDtoList;
     }
 }
