@@ -24,9 +24,6 @@ public class Schedule extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
-    private String name;
-    private Integer age;
-    private String nick;
 
 
 
