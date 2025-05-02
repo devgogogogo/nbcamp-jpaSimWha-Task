@@ -24,14 +24,9 @@ public class Schedule extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
-
-
-
-
-
-
-
-
-
-
+    public Schedule(String writerId, String title, String content) {
+        this.writerId = writerId;
+        this.title = title;
+        this.content = content;
+    }
 }
