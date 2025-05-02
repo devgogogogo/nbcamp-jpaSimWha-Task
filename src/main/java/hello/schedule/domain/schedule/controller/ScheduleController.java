@@ -47,4 +47,15 @@ public class ScheduleController {
         //리턴을 공통api를 이용해서 responseDto로 반환한다.
         return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.SCHEDULE_GET_All_SUCCESS, findAll));
     }
+
+    @DeleteMapping("/{id}") //스케줄 삭제
+    public ResponseEntity<ApiResponseDto> deleteSchedule(@PathVariable Long id) {
+
+        //서비스 단으로 넘겨준다.
+        scheduleService.deleteSchedule(id);
+
+        //리턴을 공통api를 이용해서 responseDto로 반환한다.
+        return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.SCHEDULE_DELETE_SUCCESS, null));
+    }
+
 }

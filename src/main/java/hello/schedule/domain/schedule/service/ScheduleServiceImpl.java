@@ -57,4 +57,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         //for문으로 넣어준 responseDto를 반환한다.
         return scheduleResponseDtoList;
     }
+
+    @Override //스케줄 삭제
+    public void deleteSchedule(Long id) {
+        // 일단 스케줄이 있는지 확인한다.
+        Schedule findById = scheduleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("삭제할 스케줄이 없습니다."));
+
+        //있으면 삭제 ㄱㄱ
+        scheduleRepository.delete(findById);
+    }
 }

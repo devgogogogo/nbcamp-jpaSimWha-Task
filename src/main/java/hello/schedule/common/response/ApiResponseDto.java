@@ -1,9 +1,12 @@
 package hello.schedule.common.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 @JsonPropertyOrder({ "timestamp","code","data", "message"})
 // 저 필드 순서대로 응답처리가 나온다.
@@ -11,8 +14,9 @@ import java.time.LocalDateTime;
 public class ApiResponseDto<T> {
 
     private LocalDateTime timestamp;
-    private T data;
-    private String message;
+    @JsonInclude(value = NON_NULL)  // 실제 응답 데이터 (nullable), null이면 JSON에서 제외됨
+    private T data; // 응답 Dto
+    private String message; //Enum에 있는 메세지
 
     public ApiResponseDto(SuccessCode successCode, T data) {
         this.timestamp = LocalDateTime.now();

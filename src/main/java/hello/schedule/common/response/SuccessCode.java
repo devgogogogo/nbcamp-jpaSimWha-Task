@@ -10,7 +10,8 @@ public enum SuccessCode {
 
     SCHEDULE_CREATE_SUCCESS(201, HttpStatus.CREATED, "스케쥴이 생성되었습니다."),
     SCHEDULE_GET_ONE_SUCCESS(200, HttpStatus.OK, "스케쥴 단편 조회하였습니다."),
-    SCHEDULE_GET_All_SUCCESS(200, HttpStatus.OK, "스케쥴 전체를 조회하였습니다.");
+    SCHEDULE_GET_All_SUCCESS(200, HttpStatus.OK, "스케쥴 전체를 조회하였습니다."),
+    SCHEDULE_DELETE_SUCCESS(200,HttpStatus.OK,"스케줄를 삭제하였습니다.");
 
 
 
