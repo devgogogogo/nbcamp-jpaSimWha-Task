@@ -1,6 +1,7 @@
 package hello.schedule.domain.schedule.service;
 
 import hello.schedule.domain.schedule.dto.response.ScheduleResponseDto;
+import hello.schedule.domain.schedule.dto.response.UpdateScheduleResponseDto;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface ScheduleService {
     //스케줄 삭제
     void deleteSchedule(Long id);
 
+    //스케줄 수정
+    UpdateScheduleResponseDto updateSchedule(Long id, String title, String content);
 }

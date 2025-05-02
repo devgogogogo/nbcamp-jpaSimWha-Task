@@ -1,6 +1,7 @@
 package hello.schedule.domain.schedule.service;
 
 import hello.schedule.domain.schedule.dto.response.ScheduleResponseDto;
+import hello.schedule.domain.schedule.dto.response.UpdateScheduleResponseDto;
 import hello.schedule.domain.schedule.entity.Schedule;
 import hello.schedule.domain.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +58,19 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         //for문으로 넣어준 responseDto를 반환한다.
         return scheduleResponseDtoList;
+    }
+
+    @Override // 스케줄 수정
+    public UpdateScheduleResponseDto updateSchedule(Long id, String title, String content) {
+
+        //스케줄이 있는지 확인해본다 -->없으면 ?--> 예외처리 ㄱㄱ
+        Schedule findById = scheduleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("수정할 스케줄이 없습니다."));
+
+        //있다면 업데이트하자 (스케줄 엔티티에 메서드 만들어놨음)
+        findById.update(title, content);
+
+        //dto로 넣어서 반환한다.
+        return new UpdateScheduleResponseDto(findById.getId(),findById.getWriterId(),findById.getTitle(),findById.getContent());
     }
 
     @Override //스케줄 삭제

@@ -21,6 +21,6 @@ public abstract class BaseEntity {
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false, updatable = true) //updatable은 true로 해야 시간 변경시간이 표시됨
     private LocalDateTime updatedAt;
 }

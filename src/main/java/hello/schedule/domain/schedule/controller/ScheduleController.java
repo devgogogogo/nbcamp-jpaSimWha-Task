@@ -3,7 +3,9 @@ package hello.schedule.domain.schedule.controller;
 import hello.schedule.common.response.ApiResponseDto;
 import hello.schedule.common.response.SuccessCode;
 import hello.schedule.domain.schedule.dto.request.ScheduleRequestDto;
+import hello.schedule.domain.schedule.dto.request.UpdateScheduleRequestDto;
 import hello.schedule.domain.schedule.dto.response.ScheduleResponseDto;
+import hello.schedule.domain.schedule.dto.response.UpdateScheduleResponseDto;
 import hello.schedule.domain.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +48,16 @@ public class ScheduleController {
 
         //리턴을 공통api를 이용해서 responseDto로 반환한다.
         return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.SCHEDULE_GET_All_SUCCESS, findAll));
+    }
+
+    @PutMapping("/{id}") //스케줄 수정
+    public ResponseEntity<ApiResponseDto<UpdateScheduleResponseDto>> updateSchedule(@PathVariable Long id, @RequestBody UpdateScheduleRequestDto dto) {
+
+        //서비스 단으로 넘겨준다.
+        UpdateScheduleResponseDto updateScheduleResponseDto = scheduleService.updateSchedule(id, dto.getTitle(), dto.getContent());
+
+        //리턴을 공통api를 이용해서 responseDto로 반환한다.
+        return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.SCHEDULE_PUT_SUCCESS, updateScheduleResponseDto));
     }
 
     @DeleteMapping("/{id}") //스케줄 삭제
