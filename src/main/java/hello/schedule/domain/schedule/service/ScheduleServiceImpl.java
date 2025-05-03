@@ -17,7 +17,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
 
-
+    @Transactional
     @Override // 스케쥴 생성
     public ScheduleResponseDto createSchedule(String writerId, String title, String content) {
 
@@ -31,6 +31,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return new ScheduleResponseDto(savedSchedule.getId(),savedSchedule.getWriterId(),savedSchedule.getTitle(),savedSchedule.getContent());
     }
 
+    @Transactional(readOnly = true) // 읽기 전용
     @Override //스케줄 단편 조회
     public ScheduleResponseDto findById(Long id) {
 
@@ -41,6 +42,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return new ScheduleResponseDto(findById.getId(),findById.getWriterId(),findById.getTitle(),findById.getContent());
     }
 
+    @Transactional(readOnly = true)
     @Override //스케줄 전체 조회
     public List<ScheduleResponseDto> findAll() {
 
@@ -60,6 +62,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleResponseDtoList;
     }
 
+    @Transactional
     @Override // 스케줄 수정
     public UpdateScheduleResponseDto updateSchedule(Long id, String title, String content) {
 
@@ -73,6 +76,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return new UpdateScheduleResponseDto(findById.getId(),findById.getWriterId(),findById.getTitle(),findById.getContent());
     }
 
+    @Transactional
     @Override //스케줄 삭제
     public void deleteSchedule(Long id) {
         // 일단 스케줄이 있는지 확인한다.

@@ -1,5 +1,6 @@
 package hello.schedule.domain.comment.entity;
 
+import hello.schedule.common.baseEntity.BaseEntity;
 import hello.schedule.domain.schedule.entity.Schedule;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "comment")
-public class Comment {
+public class Comment extends BaseEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -19,9 +20,14 @@ public class Comment {
     private String writerId;
 
     @Column(nullable = false)
-    private String comment;
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
+
+    public Comment(String writerId, String content) {
+        this.writerId = writerId;
+        this.content = content;
+    }
 }
