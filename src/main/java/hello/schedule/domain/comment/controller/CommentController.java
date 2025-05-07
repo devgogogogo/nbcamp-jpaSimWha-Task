@@ -45,6 +45,16 @@ public class CommentController {
         List<CommentResponseDto> findAllCommentList = commentService.findAll(scheduleId);
 
         //리턴을 공통api를 이용해서 responseDto로 반환한다.
-        return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.COMMENT_GET_ALL_SUCCESS,findAllCommentList));
+        return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.COMMENT_GET_ALL_SUCCESS, findAllCommentList));
+    }
+
+    @PutMapping("/{commentId}") //댓글 수정
+    public ResponseEntity<ApiResponseDto<CommentResponseDto>> updateComment(@PathVariable Long commentId, @PathVariable Long scheduleId, @RequestBody CommentRequestDto dto) {
+
+        //서비스 단으로 넘겨준다.
+        CommentResponseDto commentResponseDto = commentService.updateComment(commentId, scheduleId, dto.getWriterId(), dto.getContent());
+
+        //리턴을 공통api를 이용해서 responseDto로 반환한다.
+        return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.COMMENT_PUT_SUCCESS, commentResponseDto));
     }
 }

@@ -43,46 +43,58 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Transactional
-    @Override //해당 댓글 단일 조회
+    @Override //해당 스케줄에 대한 댓글 단일 조회
     public CommentResponseDto findById(Long commentId, Long scheduleId) {
 
-//        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new IllegalArgumentException("일정이 존재 하지 않습니다."));
+        Comment findComment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("조회할 댓글이 없습니다."));
+        Long findScheduleId = findComment.getSchedule().getId();
 
-//        Long findScheduleId = schedule.getId();
-        //댓글 객체 써낸다 (있는지 확인해보고 없으면 예외처리 ㄱㄱ)
-
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("조회할 댓글이 없습니다."));
-        Long findCommentId = comment.getSchedule().getId();
-
-        // findScheduleID와 요청하는 scheduleId 와 같다.
-        if (findCommentId.equals(scheduleId)) {
+        //findScheduleId == 요청하는 scheduleId 와 같은지 확인한다.
+        if (!findScheduleId.equals(scheduleId)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"댓글이 없습니다.");
         }
+        Schedule findSchedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new IllegalArgumentException("조회할 댓글이 없습니다"));
+
 
         //끄집어낸 댓글 객체를 responseDto에 넣어준다.
-        return new CommentResponseDto(comment.getId(), comment.getWriterId(), comment.getContent(), LocalDateTime.now());
+        return new CommentResponseDto(findComment.getId(), findComment.getWriterId(), findComment.getContent(), LocalDateTime.now());
     }
 
     @Transactional
-    @Override
+    @Override //해당 스케줄 댓글 전체 조회
     public List<CommentResponseDto> findAll(Long scheduleId) {
 
-        List<Comment> findAllComment = commentRepository.findAll();
 
-        //원초적인 방법
-//        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
-//        for (Comment comment : findAllComment) {
-//            CommentResponseDto commentResponseDto = new CommentResponseDto(comment.getId(), comment.getWriterId(), comment.getContent(), LocalDateTime.now());
-//            commentResponseDtoList.add(commentResponseDto);
-//        }
+        List<Comment> findByScheduleId = commentRepository.findByScheduleId(scheduleId);
 
-        //향상된?방법
-        List<CommentResponseDto> list = findAllComment.stream()
+        List<CommentResponseDto> list = findByScheduleId
+                .stream()
                 .map(m -> new CommentResponseDto(m.getId(), m.getWriterId(), m.getContent(), LocalDateTime.now()))
                 .toList();
+
 
         return list;
     }
 
+    @Transactional
+    @Override //해당 스케줄 댓글 수정
+    public CommentResponseDto updateComment(Long commentId, Long scheduleId, String writerId, String content) {
 
+        //댓글을 찾고
+        Comment findComment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("수정할 댓글이 없습니다"));
+
+        //그 댓글의 기본키를 찾아온다음
+        Long findCommentId = findComment.getSchedule().getId();
+
+        //요청하는 scheduleId와 같은지 비교한다.
+        if (!findCommentId.equals(scheduleId)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정할 댓글이 없습니다.");
+        }
+
+        //엔티티에 만들어둔 메서드를 사용하고.
+        findComment.update(writerId, content);
+
+        // responseDto에 넣어 반환한다.
+        return new CommentResponseDto(findComment.getId(), findComment.getWriterId(), findComment.getContent(), LocalDateTime.now());
+    }
 }

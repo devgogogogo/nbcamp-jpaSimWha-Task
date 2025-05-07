@@ -11,4 +11,6 @@ public interface CommentService {
     CommentResponseDto findById(Long commentId,Long scheduleId);
 
     List<CommentResponseDto> findAll(Long scheduleId);
+
+    CommentResponseDto updateComment(Long commentId, Long scheduleId, String writerId, String content);
 }

@@ -31,4 +31,11 @@ public class Comment extends BaseEntity {
         this.content = content;
         this.schedule = schedule;
     }
+
+    // 댓글 업데이트 메서드
+
+    public void update(String writerId, String content) {
+        this.writerId = writerId;
+        this.content = content;
+    }
 }
