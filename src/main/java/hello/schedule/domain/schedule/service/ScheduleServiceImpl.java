@@ -6,6 +6,7 @@ import hello.schedule.domain.schedule.entity.Schedule;
 import hello.schedule.domain.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
