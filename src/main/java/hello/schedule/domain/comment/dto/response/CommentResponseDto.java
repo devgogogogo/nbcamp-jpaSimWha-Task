@@ -10,6 +10,7 @@ public class CommentResponseDto {
     private final Long id;
     private final String writerId;
     private final String content;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime updateAt;
 

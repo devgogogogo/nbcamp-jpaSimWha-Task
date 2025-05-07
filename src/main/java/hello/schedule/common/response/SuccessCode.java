@@ -34,4 +34,4 @@ public enum SuccessCode {
         this.httpStatus = httpStatus;
         this.message = message;
     }
-    }
+}

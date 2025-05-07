@@ -9,20 +9,42 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/schedules/{id}/comments")
+@RequestMapping("/schedules/{scheduleId}/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService; //생성자 주입
 
     @PostMapping
-    public ResponseEntity<ApiResponseDto<CommentResponseDto>> createComment(@PathVariable Long id, @RequestBody CommentRequestDto dto) {
+    public ResponseEntity<ApiResponseDto<CommentResponseDto>> createComment(@PathVariable Long scheduleId, @RequestBody CommentRequestDto dto) {
 
         //서비스단으로 넘겨준다.
-        CommentResponseDto commentResponseDto = commentService.createComment(id,dto.getWriterId(),dto.getContent());
+        CommentResponseDto commentResponseDto = commentService.createComment(scheduleId, dto.getWriterId(), dto.getContent());
 
         //리턴을 공통api를 이용해서 responseDto로 반환한다.
         return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.COMMENT_CREATE_SUCCESS, commentResponseDto));
+    }
+
+    @GetMapping("/{commentId}") //댓글 단일 조회
+    public ResponseEntity<ApiResponseDto<CommentResponseDto>> findById(@PathVariable Long commentId, @PathVariable Long scheduleId) {
+
+        //서비스 단으로 넘겨준다.
+        CommentResponseDto findById = commentService.findById(commentId, scheduleId);
+
+        //리턴을 공통api를 이용해서 responseDto로 반환한다.
+        return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.COMMENT_GET_ONE_SUCCESS, findById));
+    }
+
+    @GetMapping()// 댓글 전체 전회
+    public ResponseEntity<ApiResponseDto<List<CommentResponseDto>>> findAll(@PathVariable Long scheduleId) {
+
+        //서비스 단으로 넘겨준다.
+        List<CommentResponseDto> findAllCommentList = commentService.findAll(scheduleId);
+
+        //리턴을 공통api를 이용해서 responseDto로 반환한다.
+        return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.COMMENT_GET_ALL_SUCCESS,findAllCommentList));
     }
 }

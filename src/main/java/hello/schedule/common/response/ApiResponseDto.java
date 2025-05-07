@@ -27,6 +27,6 @@ public class ApiResponseDto<T> {
     //공통 응답 처리
     public static <T> ApiResponseDto<T> success(SuccessCode successCode, T data) {
 
-        return new ApiResponseDto<T>(successCode, data);
+        return new ApiResponseDto<>(successCode, data);
     }
 }
