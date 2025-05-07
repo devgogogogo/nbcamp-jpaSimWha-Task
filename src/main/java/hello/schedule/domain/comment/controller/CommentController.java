@@ -57,4 +57,12 @@ public class CommentController {
         //리턴을 공통api를 이용해서 responseDto로 반환한다.
         return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.COMMENT_PUT_SUCCESS, commentResponseDto));
     }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<ApiResponseDto<Void>> deleteComment(@PathVariable Long commentId, @PathVariable Long scheduleId) {
+
+        commentService.delete(commentId,scheduleId);
+
+        return ResponseEntity.noContent().build();
+    }
 }

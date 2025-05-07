@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -64,21 +65,21 @@ public class CommentServiceImpl implements CommentService {
     @Override //해당 스케줄 댓글 전체 조회
     public List<CommentResponseDto> findAll(Long scheduleId) {
 
-
+        //일단 해당 스케줄에 관한 댓글  (CommentRepository인터페이스에서 메서드를 구현하고 사용한다.)
         List<Comment> findByScheduleId = commentRepository.findByScheduleId(scheduleId);
+
 
         List<CommentResponseDto> list = findByScheduleId
                 .stream()
                 .map(m -> new CommentResponseDto(m.getId(), m.getWriterId(), m.getContent(), LocalDateTime.now()))
                 .toList();
-
-
         return list;
     }
 
     @Transactional
     @Override //해당 스케줄 댓글 수정
     public CommentResponseDto updateComment(Long commentId, Long scheduleId, String writerId, String content) {
+
 
         //댓글을 찾고
         Comment findComment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("수정할 댓글이 없습니다"));
@@ -96,5 +97,14 @@ public class CommentServiceImpl implements CommentService {
 
         // responseDto에 넣어 반환한다.
         return new CommentResponseDto(findComment.getId(), findComment.getWriterId(), findComment.getContent(), LocalDateTime.now());
+    }
+
+    @Transactional
+    @Override
+    public void delete(Long commentId, Long scheduleId) {
+
+        Comment comment = commentRepository.findByScheduleIdAndId(scheduleId, commentId).orElseThrow(() -> new IllegalArgumentException("삭제할 댓글이 없습니다."));
+
+        commentRepository.delete(comment);
     }
 }
