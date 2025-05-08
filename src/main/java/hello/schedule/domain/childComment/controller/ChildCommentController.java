@@ -4,6 +4,7 @@ import hello.schedule.common.response.ApiResponseDto;
 import hello.schedule.common.response.SuccessCode;
 import hello.schedule.domain.childComment.dto.request.ChildCommentRequestDto;
 import hello.schedule.domain.childComment.dto.response.ChildCommentResponseDto;
+import hello.schedule.domain.childComment.dto.response.ParentCommentResponseDto;
 import hello.schedule.domain.childComment.service.ChildCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,17 @@ public class ChildCommentController {
         ChildCommentResponseDto childCommentResponseDto = childCommentService.createChildComment(commentId, dto.getWriterId(), dto.getChildComment());
 
         //리턴을 공통api를 이용해서 responseDto로 반환한다.
-        return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.CHILD_COMMENT_CREATE_SUCCESS,childCommentResponseDto));
+        return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.CHILD_COMMENT_CREATE_SUCCESS, childCommentResponseDto));
     }
+
+    @GetMapping
+    public ResponseEntity<ParentCommentResponseDto<ChildCommentResponseDto>> findAllChildComment(@PathVariable Long commentId) {
+
+        //서비스 단으로 넘겨준다.
+        ParentCommentResponseDto<ChildCommentResponseDto> responseDto = childCommentService.findAll(commentId);
+
+        //responseDto로 넘겨준다.
+        return ResponseEntity.ok(responseDto);
+    }
+
 }

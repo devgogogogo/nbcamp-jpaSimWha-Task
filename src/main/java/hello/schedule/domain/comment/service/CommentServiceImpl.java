@@ -67,8 +67,6 @@ public class CommentServiceImpl implements CommentService {
         //일단 해당 스케줄에 관한 댓글  (CommentRepository인터페이스에서 메서드를 구현하고 사용한다.)
         List<Comment> findByScheduleId = commentRepository.findByScheduleId(scheduleId);
 
-        List<CommentResponseDto> comments = new ArrayList<>();
-
 
         List<CommentResponseDto> list = findByScheduleId
                 .stream()

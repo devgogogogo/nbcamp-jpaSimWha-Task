@@ -1,5 +1,6 @@
 package hello.schedule.domain.schedule.service;
 
+import hello.schedule.domain.comment.repository.CommentRepository;
 import hello.schedule.domain.schedule.dto.response.ScheduleResponseDto;
 import hello.schedule.domain.schedule.dto.response.UpdateScheduleResponseDto;
 import hello.schedule.domain.schedule.entity.Schedule;
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     @Override // 스케쥴 생성
@@ -49,6 +51,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         //DB에 findAll을 해서 List<Schedule> 을 가지고 나온다.
         List<Schedule> findAll = scheduleRepository.findAll();
+
 
         //담아갈 배열을 하나 만들어 준다.
         List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>();
