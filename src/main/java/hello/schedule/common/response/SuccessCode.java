@@ -20,10 +20,14 @@ public enum SuccessCode {
     COMMENT_GET_ONE_SUCCESS(202, HttpStatus.OK, "댓글이 조회 되었습니다."),
     COMMENT_GET_ALL_SUCCESS(202, HttpStatus.OK, "전체 댓글이 조회 되었습니다."),
     COMMENT_PUT_SUCCESS(202, HttpStatus.OK, "댓글이 수정 되었습니다."),
-    COMMENT_DELETE_SUCCESS(202, HttpStatus.OK, "댓글이 조회 삭제 되었습니다.");
+    COMMENT_DELETE_SUCCESS(202, HttpStatus.OK, "댓글이 삭제 되었습니다."),
 
     //대댓글
-
+    CHILD_COMMENT_CREATE_SUCCESS(201, HttpStatus.CREATED, "댓글이 생성 되었습니다."),
+    CHILD_COMMENT_GET_ONE_SUCCESS(202, HttpStatus.OK, "댓글이 일단 조회 되었습니다."),
+    CHILD_COMMENT_GET_ALL_SUCCESS(202, HttpStatus.OK, "댓글이 전체 조회 되었습니다."),
+    CHILD_COMMENT_PUT_SUCCESS(202, HttpStatus.OK, "댓글이 수정 되었습니다."),
+    CHILD_COMMENT_DELETE_SUCCESS(202, HttpStatus.OK, "댓글이 삭제 되었습니다.");
 
     private final Integer code;
     private final HttpStatus httpStatus;

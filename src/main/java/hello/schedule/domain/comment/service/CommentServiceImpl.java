@@ -27,10 +27,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public CommentResponseDto createComment(Long id, String writerId, String content) {
+    public CommentResponseDto createComment(Long scheduleId, String writerId, String content) {
 
         //스케줄 엔티티 조회하고(스케줄 객체를 하나 생성해준다. --> 댓글 객체에 넣어줘야 하기 때문에)
-        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 스케줄이 존재하지 않습니다"));
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new IllegalArgumentException("해당 스케줄이 존재하지 않습니다"));
 
 
         //댓글객체 생성할때 스케줄을 주입함
@@ -56,7 +56,6 @@ public class CommentServiceImpl implements CommentService {
         }
         Schedule findSchedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new IllegalArgumentException("조회할 댓글이 없습니다"));
 
-
         //끄집어낸 댓글 객체를 responseDto에 넣어준다.
         return new CommentResponseDto(findComment.getId(), findComment.getWriterId(), findComment.getContent(), LocalDateTime.now());
     }
@@ -67,6 +66,8 @@ public class CommentServiceImpl implements CommentService {
 
         //일단 해당 스케줄에 관한 댓글  (CommentRepository인터페이스에서 메서드를 구현하고 사용한다.)
         List<Comment> findByScheduleId = commentRepository.findByScheduleId(scheduleId);
+
+        List<CommentResponseDto> comments = new ArrayList<>();
 
 
         List<CommentResponseDto> list = findByScheduleId
@@ -79,7 +80,6 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override //해당 스케줄 댓글 수정
     public CommentResponseDto updateComment(Long commentId, Long scheduleId, String writerId, String content) {
-
 
         //댓글을 찾고
         Comment findComment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("수정할 댓글이 없습니다"));

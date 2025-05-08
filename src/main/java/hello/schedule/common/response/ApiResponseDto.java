@@ -13,10 +13,13 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Getter
 public class ApiResponseDto<T> {
 
-    private LocalDateTime timestamp;
+    private final LocalDateTime timestamp;
+
     @JsonInclude(value = NON_NULL)  // 실제 응답 데이터 (nullable), null이면 JSON에서 제외됨
-    private T data; // 응답 Dto
-    private String message; //Enum에 있는 메세지
+    private final T data; // 응답 Dto
+
+    private final String message; //Enum에 있는 메세지
+
 
     public ApiResponseDto(SuccessCode successCode, T data) {
         this.timestamp = LocalDateTime.now();

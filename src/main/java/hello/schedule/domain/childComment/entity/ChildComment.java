@@ -20,9 +20,16 @@ public class ChildComment extends BaseEntity {
     private String writerId;
 
     @Column(nullable = false)
-    private String content;
+    private String childComment;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
+
+    public ChildComment(String writerId, String childComment, Comment comment) {
+        this.writerId = writerId;
+        this.childComment = childComment;
+        this.comment = comment;
+    }
 }
