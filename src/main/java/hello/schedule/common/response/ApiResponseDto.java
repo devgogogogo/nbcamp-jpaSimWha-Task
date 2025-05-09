@@ -1,5 +1,6 @@
 package hello.schedule.common.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 @Getter
 public class ApiResponseDto<T> {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private final LocalDateTime timestamp;
 
     @JsonInclude(value = NON_NULL)  // 실제 응답 데이터 (nullable), null이면 JSON에서 제외됨

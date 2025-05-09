@@ -1,6 +1,7 @@
 package hello.schedule.domain.schedule.service;
 
 import hello.schedule.domain.comment.repository.CommentRepository;
+import hello.schedule.domain.schedule.dto.response.FindScheduleResponseDto;
 import hello.schedule.domain.schedule.dto.response.ScheduleResponseDto;
 import hello.schedule.domain.schedule.dto.response.UpdateScheduleResponseDto;
 import hello.schedule.domain.schedule.entity.Schedule;
@@ -47,18 +48,19 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Transactional(readOnly = true)
     @Override //스케줄 전체 조회
-    public List<ScheduleResponseDto> findAll() {
+    public List<FindScheduleResponseDto> findAll() {
 
         //DB에 findAll을 해서 List<Schedule> 을 가지고 나온다.
         List<Schedule> findAll = scheduleRepository.findAll();
 
-
         //담아갈 배열을 하나 만들어 준다.
-        List<ScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>();
+        List<FindScheduleResponseDto> scheduleResponseDtoList = new ArrayList<>();
+
 
         //for문으로 responseDto에 넣어준다.
         for (Schedule schedule : findAll) {
-            ScheduleResponseDto findSchedule = new ScheduleResponseDto(schedule.getId(), schedule.getWriterId(), schedule.getTitle(), schedule.getContent());
+            Long count = commentRepository.countByScheduleId(schedule.getId());
+            FindScheduleResponseDto findSchedule = new FindScheduleResponseDto(schedule.getId(), schedule.getWriterId(), schedule.getTitle(), schedule.getContent(),count);
             scheduleResponseDtoList.add(findSchedule);
         }
 

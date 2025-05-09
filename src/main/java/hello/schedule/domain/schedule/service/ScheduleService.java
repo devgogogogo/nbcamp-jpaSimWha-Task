@@ -1,5 +1,6 @@
 package hello.schedule.domain.schedule.service;
 
+import hello.schedule.domain.schedule.dto.response.FindScheduleResponseDto;
 import hello.schedule.domain.schedule.dto.response.ScheduleResponseDto;
 import hello.schedule.domain.schedule.dto.response.UpdateScheduleResponseDto;
 
@@ -15,7 +16,7 @@ public interface ScheduleService {
     ScheduleResponseDto findById(Long id);
 
     //스케줄 전체 조회
-    List<ScheduleResponseDto> findAll();
+    List<FindScheduleResponseDto> findAll();
 
     //스케줄 삭제
     void deleteSchedule(Long id);

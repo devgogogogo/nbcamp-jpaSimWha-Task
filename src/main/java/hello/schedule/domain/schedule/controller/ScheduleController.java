@@ -4,6 +4,7 @@ import hello.schedule.common.response.ApiResponseDto;
 import hello.schedule.common.response.SuccessCode;
 import hello.schedule.domain.schedule.dto.request.ScheduleRequestDto;
 import hello.schedule.domain.schedule.dto.request.UpdateScheduleRequestDto;
+import hello.schedule.domain.schedule.dto.response.FindScheduleResponseDto;
 import hello.schedule.domain.schedule.dto.response.ScheduleResponseDto;
 import hello.schedule.domain.schedule.dto.response.UpdateScheduleResponseDto;
 import hello.schedule.domain.schedule.service.ScheduleService;
@@ -41,10 +42,10 @@ public class ScheduleController {
     }
 
     @GetMapping() //스케줄 전체 조회
-    public ResponseEntity<ApiResponseDto<List<ScheduleResponseDto>>> findAll() {
+    public ResponseEntity<ApiResponseDto<List<FindScheduleResponseDto>>> findAll() {
 
         //서비스 단으로 넘겨준다.
-        List<ScheduleResponseDto> findAll = scheduleService.findAll();
+        List<FindScheduleResponseDto> findAll = scheduleService.findAll();
 
         //리턴을 공통api를 이용해서 responseDto로 반환한다.
         return ResponseEntity.ok(ApiResponseDto.success(SuccessCode.SCHEDULE_GET_All_SUCCESS, findAll));
