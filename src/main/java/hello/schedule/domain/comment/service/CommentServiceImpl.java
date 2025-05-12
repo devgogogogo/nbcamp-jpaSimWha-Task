@@ -5,6 +5,7 @@ import hello.schedule.domain.comment.entity.Comment;
 import hello.schedule.domain.comment.repository.CommentRepository;
 import hello.schedule.domain.schedule.entity.Schedule;
 import hello.schedule.domain.schedule.repository.ScheduleRepository;
+import hello.schedule.exception.CustomException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -80,7 +81,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentResponseDto updateComment(Long commentId, Long scheduleId, String writerId, String content) {
 
         //댓글을 찾고
-        Comment findComment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("수정할 댓글이 없습니다"));
+        Comment findComment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException("수정할 댓글이 없습니다"));
 
         //그 댓글의 기본키를 찾아온다음
         Long findCommentId = findComment.getSchedule().getId();
